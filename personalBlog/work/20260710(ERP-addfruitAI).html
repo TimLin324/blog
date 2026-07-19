@@ -396,7 +396,7 @@
             $("#send_btn").on("click", function () {
                 //將productData傳至後端(product.json)
                 axios
-                    .post('http://localhost:3000/product', productData)
+                    .post('https://json-server-myblog.onrender.com', productData)
                     .then(function (response) {
                         if (response.status == 201) {
                             Swal.fire({
