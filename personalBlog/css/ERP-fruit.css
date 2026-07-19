@@ -1,0 +1,146 @@
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background-color: #f4f6f4 !important;
+    color: #243527;
+    letter-spacing: 0.02em;
+}
+
+/* 奢華流線型：深森林綠與暖調香檳金導覽列 */
+.navbar {
+    background: linear-gradient(135deg, #0b1a0e 0%, #152d19 100%) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid #dec293;
+    padding: 0.75rem 1rem;
+}
+
+.navbar-brand {
+    color: #dec293 !important;
+    font-weight: 700;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.nav-link {
+    color: #c5d7ca !important;
+    font-weight: 500;
+    transition: all 0.25s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #dec293 !important;
+}
+
+.dropdown-menu {
+    background-color: #152d19;
+    border: 1px solid #dec293;
+}
+
+.dropdown-item {
+    color: #c5d7ca !important;
+}
+
+.dropdown-item:hover {
+    background-color: #dec293 !important;
+    color: #0b1a0e !important;
+}
+
+/* 搜尋列黑金內斂優化 */
+form[role="search"] .form-control {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(222, 194, 147, 0.25) !important;
+    color: #ffffff !important;
+}
+
+form[role="search"] .btn-outline-success {
+    color: #dec293 !important;
+    border-color: #dec293 !important;
+}
+
+form[role="search"] .btn-outline-success:hover {
+    background-color: #dec293 !important;
+    color: #0b1a0e !important;
+}
+
+/* 精緻低調主標題 */
+.display-5 {
+    color: #102615;
+    font-size: 1.8rem;
+    position: relative;
+    padding-bottom: 14px;
+}
+
+.display-5::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #dec293, #bba070);
+    border-radius: 2px;
+}
+
+/* 專業外銷級 RWD 資料表 */
+.table-rwd {
+    background-color: #ffffff;
+    border-collapse: separate !important;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border-bottom: 3px solid #152d19 !important;
+    box-shadow: 0 6px 30px rgba(16, 38, 21, 0.03);
+}
+
+.table-rwd thead th {
+    background-color: #152d19 !important;
+    color: #dec293 !important;
+    font-weight: 600;
+    font-size: 0.92rem;
+    padding: 16px 14px;
+    border: none !important;
+}
+
+.table-rwd tbody td {
+    padding: 14px 14px;
+    vertical-align: middle;
+    color: #384a3c;
+    border-bottom: 1px solid #edf1ed !important;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd)>* {
+    background-color: #fafbfa !important;
+    box-shadow: inset 0 0 0 9999px #fafbfa !important;
+}
+
+.table-striped>tbody>tr:nth-of-type(even)>* {
+    background-color: #ffffff !important;
+    box-shadow: inset 0 0 0 9999px #ffffff !important;
+}
+
+.table-hover>tbody>tr:hover>* {
+    background-color: #eef3ef !important;
+    box-shadow: inset 0 0 0 9999px #eef3ef !important;
+    color: #0b1a0e !important;
+}
+
+/* 分頁按鈕輕奢化 */
+.pagination .page-link {
+    color: #152d19;
+    border: 1px solid #e1e7e1;
+    background-color: #ffffff;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #152d19 !important;
+    border-color: #152d19 !important;
+    color: #dec293 !important;
+}
+
+.pagination .page-link:hover {
+    background-color: #dec293;
+    color: #0b1a0e;
+    border-color: #dec293;
+}

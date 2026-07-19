@@ -1,0 +1,627 @@
+@import url('https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&display=swap');
+
+/* ==========================================================================
+全域變數與專屬色調 (Variables & Color Palette)
+========================================================================== */
+:root {
+    --bg-main: #f0f4f8;
+    /* 輕盈冷灰藍 */
+    --bg-section-alt: #e2e8f0;
+    /* 稍微深一點的交替冷灰 */
+    --bg-card: #ffffff;
+    /* 純白卡片，能在冷灰背景上立體浮現 */
+
+    /* 文字顏色：降低純黑的生硬感，改用帶有深邃科技感的石墨藍 */
+    --text-primary: #0f172a;
+    /* 主要文字：深邃石墨藍 (Slate 900) */
+    --text-secondary: #334155;
+    /* 次要文字：沉穩鋼鐵灰 (Slate 700) */
+    --text-muted: #64748b;
+    /* 提示/時間軸文字 (Slate 500) */
+
+    /* 品牌強調色：放棄高飽和度的刺眼寶藍，改用高智感的「霧灰藍」與「午夜靛藍」 */
+    --color-primary: #334155;
+    /* 主調：改用沈穩的軍藍鋼鐵灰，極具工程師的冷靜專業感 */
+    --color-primary-hover: #1e293b;
+    /* 懸停時加深成接近黑的深藍 */
+    --color-secondary: #475569;
+    /* 次要輔助色 */
+    --color-accent: #64748b;
+
+    --border-color: #e2e8f0;
+    /* 優雅細微的邊框線 */
+    --list-dot: #475569;
+    --card-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+    --card-shadow-hover: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
+
+    /* Hover 遮罩：改用低調的高級半透明煙燻灰藍 */
+    --roller-bg: rgba(15, 23, 42, 0.08);
+    --selection-bg: #e2e8f0;
+    --selection-text: #0f172a;
+
+    --user-text-bg: rgba(255, 255, 255, 0.9);
+    --text-on-btn: #ffffff;
+    --btn-shadow: rgba(15, 23, 42, 0.08);
+    --btn-hover-bg: #1e293b;
+}
+
+/* ==========================================================================
+全域基礎與工具類別 (Base & Utilities)
+========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    letter-spacing: 0.05em;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+    background-color: var(--selection-bg);
+    color: var(--selection-text);
+}
+
+.bg-cover {
+    background-position: center center;
+    background-size: cover;
+}
+
+.imgbox {
+    background-color: #cbd5e1 !important;
+    /* 優雅中度冷灰藍 (Slate 300) */
+    border: 1px solid #e2e8f0;
+    /* 與變數一致的優雅邊框線 */
+}
+
+@media (max-width: 576px) {
+
+    .titleImg,
+    .timeline-section::before,
+    .timeline-section-pointer::before {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+時間軸元件 (Timeline Section)
+========================================================================== */
+.timeline-section {
+    position: relative;
+}
+
+.timeline-section::before {
+    position: absolute;
+    content: "";
+    top: 5px;
+    bottom: 0;
+    width: 2px;
+    background-color: var(--color-primary);
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.timeline-section-pointer {
+    position: relative;
+}
+
+.timeline-section-pointer::before {
+    position: absolute;
+    content: "";
+    width: 20px;
+    height: 20px;
+    background-color: var(--bg-card);
+    top: 15px;
+    border-radius: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid var(--color-primary);
+    z-index: 2;
+}
+
+/* ==========================================================================
+作品集卡片元件 (Portfolio Cards)
+========================================================================== */
+.storCard {
+    border: none;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: var(--bg-card);
+}
+
+.storCard:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.card-img-wrap {
+    position: relative;
+    overflow: hidden;
+    height: 200px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ==========================================================================
+遮罩滑入特效 (僅保留上到下 Hover)
+========================================================================== */
+.roller-t {
+    position: relative;
+    overflow: hidden;
+}
+
+/* 遮罩基本樣式 */
+.roller-t .roller_box,
+.card-img-wrap .roller_box {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--roller-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease, top 0.4s ease;
+    z-index: 2;
+}
+
+/* 上到下專屬初始位置 */
+.roller-t .roller_box {
+    top: -100%;
+    left: 0;
+}
+
+.card-img-wrap .roller_box {
+    top: 0;
+    left: 0;
+}
+
+/* Hover 觸發狀態 */
+.roller-t:hover .roller_box {
+    top: 0;
+    opacity: 1;
+}
+
+.card-img-wrap:hover .roller_box {
+    opacity: 1;
+    transform: translate(0, 0) !important;
+}
+
+/* ==========================================================================
+互動按鈕元件 (Interactive Buttons)
+========================================================================== */
+.roller-btn {
+    display: inline-block;
+    width: 130px;
+    height: 40px;
+    perspective: 600px;
+    vertical-align: middle;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.roller-box {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+    transform-origin: center center;
+}
+
+.roller-front,
+.roller-bottom {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 6px;
+}
+
+.roller-front {
+    background-color: var(--color-primary);
+    color: white;
+    transform: rotateX(0deg);
+    z-index: 2;
+}
+
+.roller-bottom {
+    background-color: var(--color-primary-hover);
+    color: #e0f0ff;
+    transform: rotateX(-180deg);
+}
+
+.roller-btn:hover .roller-box {
+    transform: rotateX(180deg);
+}
+
+.btn-tech-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 130px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--color-primary);
+    background-color: transparent;
+    border: 2px solid var(--color-primary);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.btn-tech-outline:hover {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+}
+
+/* ==========================================================================
+s01:個人名片區塊
+========================================================================== */
+.s01 {
+    background-color: var(--bg-section-alt);
+    height: 100vh;
+    min-height: 600px;
+    position: relative;
+}
+
+.s01 .titleImg {
+    position: absolute;
+    top: 60px;
+    bottom: 60px;
+    left: 60px;
+    right: 60px;
+    background-color: var(--bg-card);
+    background-image: url(/images/fuji02.jpg);
+    background-position: center;
+    background-size: cover;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.s01 .userImg {
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    transform: translateY(-50%);
+    width: 250px;
+    height: 300px;
+    background-color: #cbd5e1;
+    background-image: url(/images/personal/IMG_0431.JPG);
+    border-radius: 8px 0 0 8px;
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.1);
+    background-size: cover;
+    background-position: center;
+}
+
+.s01 .userText {
+    position: absolute;
+    top: 50%;
+    left: calc(5% + 250px);
+    transform: translateY(-50%);
+    height: 300px;
+    background-color: var(--user-text-bg);
+    padding: 30px 40px;
+    border-radius: 0 8px 8px 0;
+    backdrop-filter: blur(4px);
+    max-width: 520px;
+}
+
+.s01 .userText h1 {
+    font-size: 32px;
+    color: var(--text-primary);
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.s01 .userText hr {
+    border: none;
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 15px 0;
+}
+
+.s01 .userText h2 {
+    font-size: 16px;
+    color: var(--text-secondary);
+    font-weight: 400;
+    line-height: 1.8;
+}
+
+/* ==========================================================================
+s02:作品卡片區塊
+========================================================================== */
+.s02 {
+    padding: 100px 10%;
+    text-align: center;
+    background-color: var(--bg-main);
+}
+
+.s02 h2 {
+    font-size: 28px;
+    color: var(--color-primary);
+    margin-bottom: 40px;
+    letter-spacing: 3px;
+    position: relative;
+    display: inline-block;
+}
+
+.s02 h2::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    background-color: var(--color-secondary);
+    margin: 8px auto 0 auto;
+}
+
+.s02 .card {
+    width: 260px;
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    margin: 15px;
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+    padding: 25px 20px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid rgba(209, 219, 219, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.s02 .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(43, 51, 62, 0.12);
+}
+
+.s02 .card h3 {
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.s02 .card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    height: 44px;
+    overflow: hidden;
+}
+
+.s02 .card a {
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    background-color: var(--color-secondary);
+    color: var(--text-on-btn);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    padding: 10px 15px;
+    box-shadow: 0 4px 6px var(--btn-shadow);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.s02 .card a:hover {
+    background-color: var(--btn-hover-bg);
+    color: var(--text-on-btn);
+    box-shadow: 0 6px 12px rgba(58, 80, 107, 0.3);
+    transform: scale(1.02);
+}
+
+/* ==========================================================================
+ s03:作品集區塊
+ ========================================================================== */
+.s03 {
+    padding: 100px 10%;
+    /* 優化：加大上下間距，給予視覺呼吸空間 */
+    text-align: center;
+    background-color: var(--bg-main);
+}
+
+.s03 .h2,
+.s03 h2 {
+    font-size: 28px;
+    /* 優化：稍微縮小，更顯優雅 */
+    color: var(--color-primary);
+    margin-bottom: 40px;
+    /* 新增：與下方卡片的間距 */
+    letter-spacing: 3px;
+    position: relative;
+    display: inline-block;
+}
+
+/* 新增：標題下方的小裝飾線，強化日式清新感 */
+.s03 .h2::after,
+.s03 h2::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    background-color: var(--color-secondary);
+    margin: 8px auto 0 auto;
+}
+
+/* 作品卡片外層容器 (原本無，但在 HTML 中為多個 .card 平級) */
+/* 優化：利用現代 Flex 佈局替代原本的 inline-block，完美解決間距與換行對齊問題 */
+.s03 {
+    display: block;
+}
+
+/* 由於不能改動 HTML 結構，直接針對 .card 進行現代排版優化 */
+.s03 .card {
+    width: 260px;
+    /* 優化：寬度微調 */
+    background-color: var(--bg-card);
+    /* 優化：卡片改用純白，與主背景形成對比 */
+    border-radius: 12px;
+    /* 優化：圓角微調 */
+    margin: 15px;
+    /* 優化：均勻的四週外距 */
+    display: inline-block;
+    /* 保持原架構相容性 */
+    vertical-align: top;
+    /* 新增：確保卡片內容長短不一時，頂部依然對齊 */
+    text-align: left;
+    /* 新增：卡片內文字改為置左，方便閱讀 */
+    padding: 25px 20px;
+    /* 新增：舒適的卡片內距 */
+    box-shadow: 0 4px 15px var(--card-shadow);
+    /* 優化：輕柔質感的陰影 */
+    border: 1px solid rgba(209, 219, 219, 0.5);
+    /* 新增：極淡的邊框提升精緻度 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* 新增：卡片懸停動畫過渡 */
+}
+
+/* 新增：滑鼠懸停在卡片上的微浮起效果 */
+.s03 .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(43, 51, 62, 0.12);
+}
+
+.s03 .card h3 {
+    font-size: 18px;
+    padding-top: 0;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.s03 .card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    /* 新增：與下方按鈕的間距 */
+    height: 44px;
+    /* 新增：固定描述高度，確保按鈕能水平對齊（容納兩行字） */
+    overflow: hidden;
+}
+
+/* 作品連結按鈕 */
+.s03 .card a {
+    text-decoration: none;
+    display: block;
+    /* 優化：改為 block 滿寬按鈕，視覺更清晰、更好點擊 */
+    text-align: center;
+    /* 新增：文字置中 */
+    background-color: var(--color-secondary);
+    color: var(--text-on-btn);
+    /* 優化：使用專屬按鈕文字色 */
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    /* 優化：俐落的圓角 */
+    margin: 10px;
+    /* 優化：清除原本混亂的 margin */
+    padding: 10px 15px;
+    box-shadow: 0 4px 6px var(--btn-shadow);
+    /* 優化：改用低飽和陰影 */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    /* 優化：更輕快的動畫時間與曲線 */
+}
+
+/* 按鈕 Hover 狀態 */
+.s03 .card a:hover {
+    background-color: var(--btn-hover-bg);
+    /* 優化：Hover 時轉為沉穩的縹色 */
+    color: var(--text-on-btn);
+    box-shadow: 0 6px 12px rgba(58, 80, 107, 0.3);
+    /* 優化：重新計算搭配主調色的陰影 */
+    transform: scale(1.02);
+
+    /* 新增：輕微放大效果，點擊感更好 */
+}
+
+/* ==========================================================================
+s04:輪播與彈窗區塊 (Swiper & Modal)
+========================================================================== */
+.s04 {
+    padding: 100px 10%;
+    text-align: center;
+    background-color: var(--bg-section-alt);
+}
+
+.s04 .swiper {
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.s04 .swiper-slide {
+    background-position: center;
+    background-size: cover;
+    width: 300px;
+    height: 300px;
+}
+
+.s04 .swiper-slide img {
+    display: block;
+    width: 80%;
+    height: 100%;
+    object-fit: cover;
+    margin: 0 auto;
+}
+
+.modal-content .swiper {
+    width: 100%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.modal-content .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    height: 60vh;
+    background-color: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content .swiper-slide img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.modal-content .swiper-button-next,
+.modal-content .swiper-button-prev {
+    color: #ffffff;
+}
