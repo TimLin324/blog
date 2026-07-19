@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh_TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>產品列表</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/ERP-fruit.css">
+</head>
+
+<body class="bg-light">
+    <!-- 最上方列表列 -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">控制台</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="20260710(ERP-addfruitAI).html">產品建檔</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="20260710(ERP-fruitAI).html">產品列表</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <!-- 產品列表 -->
+    <div class="container py-5">
+        <div class="display-5 text-center fw-bold">產品列表</div>
+        <!-- 自訂每頁顯示筆數 -->
+        <div class="d-flex justify-content-start align-items-center mt-3">
+            <label for="size" class="form-label fw-900 mt-2 me-2">每頁顯示</label>
+            <select name="" id="size" class="form-select form-select-sm" style="width: 70px;">
+                <option value="5" selected>5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+            </select>
+            <span>筆</span>
+        </div>
+        <!-- 列表 -->
+        <table class="table mt-3 table-bordered table-hover table-striped table-rwd">
+            <caption>產品列表</caption>
+            <thead>
+                <tr>
+                    <th>產品序號</th>
+                    <th>產品名稱</th>
+                    <th>產品數量</th>
+                    <th>保存方式</th>
+                    <th>包裝方式</th>
+                    <th>銷售狀態</th>
+                    <th>販賣方式</th>
+                    <th>支付方式</th>
+                    <th>建檔時間</th>
+                    <th>功能</th>
+                </tr>
+            </thead>
+            <tbody id="myproduct">
+                <!-- 產品列表匯入處 -->
+            </tbody>
+        </table>
+        <!-- 分頁列表 -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center" id="pagination">
+                <!-- 分頁匯入處 -->
+            </ul>
+        </nav>
+    </div>
+    </div>
+
+    <!-- updateModal -->
+    <div class="modal fade" id="updateModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">產品修改</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- 產品名稱 -->
+                    <div class="mb-4 form-floating">
+                        <input type="text" class="form-control rounded-3" name="" id="pdname" placeholder="產品名稱"
+                            value="" disabled>
+                        <label for="pdname" class="text-muted">產品名稱 (1 ~ 10 字)</label>
+                        <div class="valid-feedback fs-7">✓ 確認輸入</div>
+                        <div class="invalid-feedback fs-7">⚠ 不符規定，請重新輸入</div>
+                    </div>
+                    <!-- 數量 -->
+                    <div class="mb-4">
+                        <label for="pdnum" class="form-label fw-semibold text-secondary mb-2">數量 (0 ~
+                            999)</label>
+                        <input type="number" class="form-control form-control-lg rounded-3 fs-6 is-valid" min="0"
+                            max="999" id="pdnum" placeholder="請輸入數量">
+                        <div class="valid-feedback fs-7">✓ 確認輸入</div>
+                        <div class="invalid-feedback fs-7">⚠ 不符規定，請重新輸入</div>
+                    </div>
+                    <!-- 包裝方式 -->
+                    <div class="mb-4">
+                        <label for="pdpackage" class="form-label fw-semibold text-secondary mb-2">包裝方式</label>
+                        <select name="" id="pdpackage" class="form-select form-select-lg rounded-3 fs-6 is-valid">
+                            <option value="請選擇">請選擇包裝類型...</option>
+                            <option value="散裝">散裝</option>
+                            <option value="盒裝">盒裝</option>
+                            <option value="禮盒">禮盒</option>
+                            <option value="箱裝">箱裝</option>
+                        </select>
+                        <div class="valid-feedback fs-7">✓ 已選擇</div>
+                        <div class="invalid-feedback fs-7">⚠ 請選擇正確的包裝方式</div>
+                    </div>
+                    <!-- 目前狀態 -->
+                    <div class="mb-4 p-2 rounded-3 bg-light border border-light">
+                        <div
+                            class="form-check form-switch d-flex align-items-center justify-content-between ps-5 pe-2 py-1">
+                            <label for="pdstatus" class="form-check-label fw-semibold text-dark mb-0"
+                                id="pdstatus_text">目前狀態: 下架</label>
+                            <input type="checkbox" id="pdstatus" class="form-check-input my-0"
+                                style="width: 2.5em; height: 1.25em; cursor: pointer;">
+                        </div>
+                    </div>
+                    <!-- 販賣位置 -->
+                    <div class="mb-4 position-relative p-3 rounded-3 bg-light border border-light">
+                        <div
+                            class="form-label fw-semibold text-secondary mb-2 border-start border-primary border-3 ps-2">
+                            販賣位置 (至少選擇一個)</div>
+                        <div id="store" class="d-flex flex-wrap gap-3 mt-2 is-valid">
+                            <div class="form-check me-2">
+                                <input type="checkbox" class="form-check-input store_place" value="零售"
+                                    id="store_retail">
+                                <label for="store_retail" class="form-check-label text-dark fs-6"
+                                    style="cursor: pointer;">零售</label>
+                            </div>
+                            <div class="form-check me-2">
+                                <input type="checkbox" class="form-check-input store_place" value="批發"
+                                    id="store_wholesale">
+                                <label for="store_wholesale" class="form-check-label text-dark fs-6"
+                                    style="cursor: pointer;">批發</label>
+                            </div>
+                            <div class="form-check me-2">
+                                <input type="checkbox" class="form-check-input store_place" value="外銷"
+                                    id="store_export">
+                                <label for="store_export" class="form-check-label text-dark fs-6"
+                                    style="cursor: pointer;">外銷</label>
+                            </div>
+                        </div>
+                        <div class="valid-feedback fs-7 position-static mt-2">✓ 已選擇</div>
+                        <div class="invalid-feedback fs-7 position-static mt-2">⚠ 至少選擇一個管道</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="send_btn">儲存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/jquery-4.0.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/axios@1.13.2/dist/axios.min.js"></script>
+    <script>
+        let cleanData = [];
+        let currentPage = 1;//目前頁碼
+        let pageSize = Number($("#size").val());//每頁幾筆
+        let flag_num, flag_pk, flag_sp = true;
+        let uid = null;
+
+        $(function () {
+            // 取得資料
+            axios
+                .get('https://json-server-myblog.onrender.com/product')
+                .then(function (response) {
+                    // 清洗資料
+                    cleanData = response.data.map(function (item, index) {
+                        return {
+                            id: index + 1,
+                            pdid: item.id,//需要原生ID讓程式在做資料更新時能找到正確的資料
+                            pdname: (item.pdname ?? "未輸入名稱").trim(),
+                            pdnum: Number(item.pdnum),
+                            /*
+                            ?? -> 只針對null及undefined
+                            tri -> 只刪除空白鍵的空白
+                            資料經上述處理仍有可能傳回""(空值)，故用三元運算子處理
+                            */
+                            pdinfo: (item.pdinfo ?? "無保存方式").trim() == "" ? "無保存方式" : (item.pdinfo ?? "無保存方式").trim(),
+                            pdpackage: (item.pdpackage ?? "無包裝方式").trim() == "" ? "無包裝方式" : (item.pdpackage ?? "無包裝方式").trim(),
+                            pdstatus: (item.pdstatus ?? "下架").trim(),
+                            store: (item.store ?? "零售").trim(),
+                            pdpay: (item.pdpay ?? "現金").trim(),
+                            created_at: (item.created_at ?? "無建檔時間").trim()
+                        }
+                    });
+                    renderTable();
+                    renderPagination();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+                .finally(function () {
+                    // always executed
+                });
+            // 監聽是否點選頁碼
+            $(".pagination").on("click", ".page-item", function () {
+                let page = Number($(this).data("page"));
+                let totalPage = Math.ceil(cleanData.length / pageSize);
+
+                if (page < 1 || page > totalPage) {
+                    return;
+                }
+                currentPage = page;
+                renderTable();
+                renderPagination();
+            });
+            // 監聽每筆顯示筆數
+            $("#size").on("change", function () {
+                pageSize = Number($(this).val());
+                //強制回到第1頁
+                currentPage = 1;
+                renderTable();
+                renderPagination();
+            });
+            // 監聽Modal的pdnum，先將值轉為數字Number()
+            $("#pdnum").on("input", function () {
+                let pdnum = Number($(this).val());
+
+                if (pdnum >= 0 && pdnum <= 999) {
+                    $(this).removeClass("is-invalid");
+                    $(this).addClass("is-valid");
+                    flag_num = true;
+                }
+                else {
+                    $(this).removeClass("is-valid");
+                    $(this).addClass("is-invalid");
+                    flag_num = false;
+                }
+            });
+            $("#pdstatus").on("change", function () {
+                let pdstatus = $(this).prop("checked");
+                // 偵測目前switch得狀態為真實顯示"上架"反之顯示"下架"
+                if (pdstatus) {
+                    $("#pdstatus_text").text("目前狀態: 上架");
+                } else {
+                    $("#pdstatus_text").text("目前狀態: 下架");
+                }
+            });
+            $("#pdpackage").on("change", function () {
+                let pdpackage = $(this).val().trim();
+                if (pdpackage != "請選擇") {
+                    $(this).removeClass("is-invalid");
+                    $(this).addClass("is-valid");
+                    flag_pk = true;
+                }
+                else {
+                    $(this).removeClass("is-valid");
+                    $(this).addClass("is-invalid");
+                    flag_pk = false;
+                }
+            });
+            $(".store_place").on("change", function () {
+                // 計算已經打勾的數量
+                let count = $(".store_place:checked").length
+
+                if (count > 0) {
+                    $("#store").removeClass("is-invalid");
+                    $("#store").addClass("is-valid");
+                    flag_sp = true;
+                } else {
+                    $("#store").removeClass("is-valid");
+                    $("#store").addClass("is-invalid");
+                    flag_sp = false;
+                }
+            });
+            //監聽更新按鈕update_btn
+            $("#myproduct").on("click", ".update_btn", function () {
+                // 將data()資料傳給modal
+                uid = $(this).data("pdid");
+                let pdname = $(this).data("pdname");
+                let pdnum = $(this).data("pdnum");
+                let pdstatus = $(this).data("pdstatus");
+                let pdpackage = $(this).data("pdpackage");
+                let store = $(this).data("store");
+
+                // 把取得的資料放在對應的id裡面
+                $("#pdname").val(pdname);
+                $("#pdnum").val(pdnum);
+                $("#pdstatus").val(pdstatus);
+                $("#pdpackage").val(pdpackage);
+                //複選勾選箱，要一個一個確認所以用each:
+                $(".store_place").each(function(){
+                    //存取原先有沒有被打勾
+                    let box = $(this).val();
+                    //檢查 store裡面，有沒有包含（includes）box 的東西。如果有，check 就會變成 true；如果沒有，就是 false。
+                    let check = store.includes(box);
+                    //將被標記的箱子打勾
+                    $(this).prop("checked", check);
+                });
+                // 判斷原先是上架還是下架
+                if (pdstatus == '上架') {
+                    $("#pdstatus_text").text("目前狀態: 上架");
+                    $("#pdstatus").prop("checked", true);
+                } else {
+                    $("#pdstatus_text").text("目前狀態: 下架");
+                    $("#pdstatus").prop("checked", false);
+                }
+
+            });
+            //監聽Modal的儲存按鈕監聽
+            $("#updateModal").on("click", "#send_btn", function () {
+                if (flag_num && flag_pk && flag_sp) {
+                    let place = [];
+                    // 檢查每一個有被checked的.store_place的值存到place陣列裡面
+                    $(".store_place:checked").each(function () {
+                        place.push($(this).val());
+                    });
+                    let updateData = {
+                        pdnum: Number($("#pdnum").val()),
+                        pdstatus: $("#pdstatus").prop("checked") ? "上架" : "下架",
+                        pdpackage: $("#pdpackage").val().trim(),
+                        store: place.join("、")
+                    };
+                    //將productData傳至後端(product.json)
+                    axios
+                        .patch(`http://localhost:3000/product/${uid}`, updateData)
+                        .then(function (response) {
+                            //console.log(response);
+                            //ver.1 重新從後端撈取資料再重整
+                            // if (response.status == 200) {
+                            //     Swal.fire({
+                            //         title: "已完成資料更新",
+                            //         icon: "success",
+                            //         showDenyButton: false,
+                            //         showCancelButton: false,
+                            //         confirmButtonText: "確認",
+                            //     }).then((result) => {
+                            //         if (result.isConfirmed) {
+                            //             // 按下確認後重整頁面
+                            //             location.reload();
+                            //         };
+                            //     });
+                            // }
+                            //ver.2 更新完成後(.patch)直接修改指定的cleanData，然後重新渲染表格(不從後端撈資料)
+                            if (response.status == 200) {
+                                // 在前端找到被更改的資料
+                                let updateItem = cleanData.find(function (item) {
+                                    return item.pdid == uid;
+                                });
+                                // 直接更改前端資料
+                                if (updateItem) {
+                                    updateItem.pdnum = updateData.pdnum;
+                                    updateItem.pdstatus = updateData.pdstatus;
+                                    updateItem.pdpackage = updateData.pdpackage;
+                                    updateItem.store = updateData.store;
+                                }
+                                // 當前頁面重新渲染
+                                renderTable();
+
+                                //關閉Modal
+                                let modalElement = document.getElementById("updateModal");
+                                let modal = bootstrap.Modal.getInstance(modalElement);
+                                modal.hide();
+
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "資料更新成功",
+                                });
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
+                        .finally(function () {
+                            // always executed
+                        });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "逼逼...",
+                        text: "資料格式錯誤",
+                    });
+                };
+            });
+            //監聽刪除按鈕delete_btn
+            $("#myproduct").on("click", ".delete_btn", function () {
+                let deleteID = $(this).data("pdid");
+                Swal.fire({
+                    title: "是否刪除本資料",
+                    icon: "question",
+                    showDenyButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: "確認刪除",
+                    denyButtonText: "取消"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // 按下確認後呼叫後端api執行刪除
+                        axios
+                            .delete(`http://localhost:3000/product/${deleteID}`)
+                            .then(function (response) {
+                                if (response.status == 200) {
+                                    //ver.3 不重新讀取資料庫，使用filter過濾功能，篩選出沒有被刪除的資料後重新renderTable
+                                    cleanData = cleanData.filter(function (item) {
+                                        return item.pdid != deleteID;
+                                    });//這是cleanData儲存了全部資料(扣除被刪的那筆)
+                                    //重新產生編號
+                                    cleanData.forEach(function (item, index) {
+                                        item.id = index + 1;
+                                    });
+                                    //重新計算頁數，判斷是否<當前頁數
+                                    let totalPage = Math.ceil(cleanData.length / pageSize);
+                                    //剛好刪掉的那一筆是最後一頁唯一的一筆
+                                    if (currentPage > totalPage) {
+                                        currentPage = totalPage;
+                                    }
+                                    //當無資料時(資料都被刪完時)
+                                    if (currentPage < 1) {
+                                        currentPage = 1;
+                                    }
+                                    renderTable();
+                                    renderPagination();
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "資料刪除成功",
+                                    });
+                                }
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            })
+                            .finally(function () {
+                                // always executed
+                            });
+                    };
+                });
+
+            });
+        });
+        // 渲染特定頁碼表格
+        function renderTable() {
+            $("#myproduct").empty();
+            // 決定本頁起始跟結束資料
+            let start = (currentPage - 1) * pageSize;
+            let end = start + pageSize;
+            // slice -> 挑選指定範圍的資料
+            let pageData = cleanData.slice(start, end);
+
+            pageData.forEach(function (item) {
+                let strHTML = `<tr>
+                                    <td data-th="產品序號"><span>${item.id}</span></td>
+                                    <td data-th="產品名稱"><span>${item.pdname}</span></td>
+                                    <td data-th="產品數量"><span>${item.pdnum}</span></td>
+                                    <td data-th="保存方式"><span>${item.pdinfo}</span></td>
+                                    <td data-th="包裝方式"><span>${item.pdpackage}</span></td>
+                                    <td data-th="銷售狀態"><span>${item.pdstatus}</span></td>
+                                    <td data-th="販賣方式"><span>${item.store}</span></td>
+                                    <td data-th="支付方式"><span>${item.pdpay}</span></td>
+                                    <td data-th="建檔時間"><span>${item.created_at}</span></td>
+                                    <td data-th="功能">
+                                        <button class="btn btn-warning btn-sm mt-1 update_btn" data-bs-toggle="modal" data-bs-target="#updateModal"
+                                        data-pdid="${item.pdid}" data-pdname="${item.pdname}" data-pdnum="${item.pdnum}" data-pdstatus="${item.pdstatus}" 
+                                        data-pdpackage="${item.pdpackage}" data-store="${item.store}">修改</button>
+                                        <button class="btn btn-danger btn-sm mt-1 delete_btn" data-pdid="${item.pdid}">刪除</button>
+                                    </td>
+                                </tr>`;
+                $("#myproduct").append(strHTML);
+            });
+        }
+        // 依照資料總比數決定頁數
+        function renderPagination() {
+            $("#pagination").empty();
+            // ceil -> 無條件進位
+            let totalPage = Math.ceil(cleanData.length / pageSize);
+            let strHTML = "";
+
+            // 加入最前頁、上一頁，若當前頁面已是最前頁則關閉該功能
+            strHTML += `<li class="page-item ${currentPage == 1 ? "disabled" : ""}" data-page=1>
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item ${currentPage == 1 ? "disabled" : ""}" data-page=${currentPage - 1}>
+                            <a class="page-link" href="#" aria-label="Previous">
+                                上一頁
+                            </a>
+                        </li>`;
+            // 製作分頁數
+            for (let i = 1; i <= totalPage; i++) {
+                // 新增data-xxx=xxx，可讓該物件附加值xxx
+                //${currentPage == i ? "active" : ""}利用三元運算子來讓當前頁面的class新增active
+                strHTML += `<li class="page-item ${currentPage == i ? "active" : ""}" data-page="${i}"><a class="page-link" href="#">${i}</a></li>`;
+            }
+            // 加入最末頁、下一頁，若當前頁面已是最末頁則關閉該功能
+            strHTML += `<li class="page-item ${currentPage == totalPage ? "disabled" : ""}" data-page=${currentPage + 1}>
+                            <a class="page-link" href="#" aria-label="Previous">
+                                下一頁
+                            </a>
+                        </li>
+                        <li class="page-item ${currentPage == totalPage ? "disabled" : ""}" data-page="${totalPage}">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>`;
+            $("#pagination").append(strHTML);
+        }
+    </script>
+</body>
+
+</html>

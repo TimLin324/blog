@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>產品建檔</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/ERP-fruit.css">
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        .fw-900 { font-weight: 900; }
+        /* 讓表格單元格內容垂直置中且留白更舒適 */
+        .table th, .table td {
+            vertical-align: middle;
+            padding: 12px 16px;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <!-- 最上方列表列 -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">控制台</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="20260710(ERP-addfruitAI).html">產品建檔</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="20260710(ERP-fruitAI).html">產品列表</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            下拉式選單
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">沒做</a></li>
+                            <li><a class="dropdown-item" href="#">還沒做</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">真的還沒做</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <div class="container py-5">
+        <!-- 表單主要卡片 -->
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-6">
+                <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+                    <!-- 標題欄位：優雅深藍灰，展現專業感 -->
+                    <div class="card-header bg-dark text-white text-center py-3 border-0">
+                        <h1 class="h3 mb-0 fw-bold tracking-wide">產 品 建 檔</h1>
+                    </div>
+
+                    <!-- 表單內容區 -->
+                    <div class="card-body p-4 bg-white">
+                        <!-- 產品名稱 -->
+                        <div class="mb-4 form-floating">
+                            <input type="text" class="form-control rounded-3" name="" id="pdname" placeholder="產品名稱">
+                            <label for="pdname" class="text-muted">產品名稱 (1 ~ 10 字)</label>
+                            <div class="valid-feedback fs-7">✓ 確認輸入</div>
+                            <div class="invalid-feedback fs-7">⚠ 不符規定，請重新輸入</div>
+                        </div>
+
+                        <!-- 數量 -->
+                        <div class="mb-4">
+                            <label for="pdnum" class="form-label fw-semibold text-secondary mb-2">數量 (0 ~ 999)</label>
+                            <input type="number" class="form-control form-control-lg rounded-3 fs-6" min="0" max="999"
+                                id="pdnum" placeholder="請輸入數量">
+                            <div class="valid-feedback fs-7">✓ 確認輸入</div>
+                            <div class="invalid-feedback fs-7">⚠ 不符規定，請重新輸入</div>
+                        </div>
+
+                        <!-- 保存方式 -->
+                        <div class="mb-4">
+                            <label for="pdinfo" class="form-label fw-semibold text-secondary mb-2">保存方式</label>
+                            <input type="text" class="form-control form-control-lg rounded-3 fs-6"
+                                placeholder="請輸入或選擇保存方式 (10字以內)" list="detalistoption" id="pdinfo">
+                            <div class="valid-feedback fs-7">✓ 確認輸入</div>
+                            <div class="invalid-feedback fs-7">⚠ 不符規定，請重新輸入</div>
+                        </div>
+                        <datalist id="detalistoption">
+                            <option value="室溫"></option>
+                            <option value="冷藏"></option>
+                            <option value="冷凍"></option>
+                        </datalist>
+
+                        <!-- 包裝方式 -->
+                        <div class="mb-4">
+                            <label for="pdpackage" class="form-label fw-semibold text-secondary mb-2">包裝方式</label>
+                            <select name="" id="pdpackage" class="form-select form-select-lg rounded-3 fs-6">
+                                <option value="請選擇">請選擇包裝類型...</option>
+                                <option value="散裝">散裝</option>
+                                <option value="盒裝">盒裝</option>
+                                <option value="禮盒">禮盒</option>
+                                <option value="箱裝">箱裝</option>
+                            </select>
+                            <div class="valid-feedback fs-7">✓ 已選擇</div>
+                            <div class="invalid-feedback fs-7">⚠ 請選擇正確的包裝方式</div>
+                        </div>
+
+                        <!-- 目前狀態 -->
+                        <div class="mb-4 p-2 rounded-3 bg-light border border-light">
+                            <div
+                                class="form-check form-switch d-flex align-items-center justify-content-between ps-5 pe-2 py-1">
+                                <label for="pdstatus" class="form-check-label fw-semibold text-dark mb-0"
+                                    id="pdstatus_text">目前狀態: 下架</label>
+                                <input type="checkbox" name="" id="pdstatus" class="form-check-input my-0"
+                                    style="width: 2.5em; height: 1.25em; cursor: pointer;">
+                            </div>
+                        </div>
+
+                        <!-- 販賣位置 -->
+                        <div class="mb-4 position-relative p-3 rounded-3 bg-light border border-light">
+                            <div
+                                class="form-label fw-semibold text-secondary mb-2 border-start border-primary border-3 ps-2">
+                                販賣位置 (至少選擇一個)</div>
+                            <div id="store" class="d-flex flex-wrap gap-3 mt-2">
+                                <div class="form-check me-2">
+                                    <input type="checkbox" class="form-check-input store_place" value="零售"
+                                        id="store_retail">
+                                    <label for="store_retail" class="form-check-label text-dark fs-6"
+                                        style="cursor: pointer;">零售</label>
+                                </div>
+                                <div class="form-check me-2">
+                                    <input type="checkbox" class="form-check-input store_place" value="批發"
+                                        id="store_wholesale">
+                                    <label for="store_wholesale" class="form-check-label text-dark fs-6"
+                                        style="cursor: pointer;">批發</label>
+                                </div>
+                                <div class="form-check me-2">
+                                    <input type="checkbox" class="form-check-input store_place" value="外銷"
+                                        id="store_export">
+                                    <label for="store_export" class="form-check-label text-dark fs-6"
+                                        style="cursor: pointer;">外銷</label>
+                                </div>
+                            </div>
+                            <div class="valid-feedback fs-7 position-static mt-2">✓ 已選擇</div>
+                            <div class="invalid-feedback fs-7 position-static mt-2">⚠ 至少選擇一個管道</div>
+                        </div>
+
+                        <!-- 付款方式 -->
+                        <div class="mb-4 position-relative p-3 rounded-3 bg-light border border-light">
+                            <div
+                                class="form-label fw-semibold text-secondary mb-2 border-start border-primary border-3 ps-2">
+                                付款方式 (至少選擇一個)</div>
+                            <div id="pdpay" class="d-flex flex-wrap gap-4 mt-2">
+                                <div class="form-check form-check-inline me-0">
+                                    <input type="radio" class="form-check-input pay" name="pay_mythod" value="現金"
+                                        id="pay_cash">
+                                    <label for="pay_cash" class="form-check-label text-dark fs-6"
+                                        style="cursor: pointer;">現金付款</label>
+                                </div>
+                                <div class="form-check form-check-inline me-0">
+                                    <input type="radio" class="form-check-input pay" name="pay_mythod" value="轉帳"
+                                        id="pay_transfer">
+                                    <label for="pay_transfer" class="form-check-label text-dark fs-6"
+                                        style="cursor: pointer;">銀行轉帳</label>
+                                </div>
+                            </div>
+                            <div class="valid-feedback fs-7 position-static mt-2">✓ 已選擇</div>
+                            <div class="invalid-feedback fs-7 position-static mt-2">⚠ 至少選擇一個付款方式</div>
+                        </div>
+
+                        <!-- 功能按鈕區 -->
+                        <div class="d-flex justify-content-end gap-2 mt-4 pt-2 border-top border-light">
+                            <button
+                                class="btn btn-light border px-4 py-2 text-secondary rounded-3 hover-shadow transition"
+                                id="cansol_btn">重設</button>
+                            <button class="btn btn-primary px-4 py-2 rounded-3 shadow-sm transition"
+                                id="ok_btn">確認建檔</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 建檔明細卡片 -->
+        <div class="row mt-5 justify-content-center d-none" id="detale">
+            <div class="col-md-7 col-lg-6">
+                <div class="card border-0 shadow-sm rounded-3 overflow-hidden border-top border-secondary border-4">
+                    <div class="card-header bg-white py-3 text-center border-bottom border-light">
+                        <h2 class="h4 mb-0 fw-bold text-secondary tracking-wide">產 品 建 檔 - 明 細</h2>
+                    </div>
+                    <div class="card-body p-4 bg-white">
+                        <!-- 明細內部卡片 -->
+                        <div id="showmessage" class="bg-light p-3 rounded-3 border border-light text-muted lh-lg fs-6">
+                            <!-- 資料動態渲染區 -->
+                        </div>
+
+                        <!-- 明細按鈕區 -->
+                        <div class="d-flex justify-content-end gap-2 mt-4 pt-2 border-top border-light">
+                            <button class="btn btn-outline-secondary px-4 py-2 rounded-3 transition">返回修改</button>
+                            <button class="btn btn-success px-4 py-2 text-white rounded-3 shadow-sm transition"
+                                id="send_btn">確認送出</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/jquery-4.0.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/axios@1.13.2/dist/axios.min.js"></script>
+    <script>
+        // 宣告一個布林值，確認資料是否符合格式>>為真才送出
+        // 若旗子不獨立各設一個，當使用者不點選(填入資料)不會觸發該function，容易導致flag因其他選項為true而為true
+        let flag_name, flag_num, flag_info, flag_pk, flag_sp, flag_pay = false;
+        let productData = {};
+        $(function () {
+            //監聽pdname：針對pdname這個物件，當他執行(on)input指令時觸法後續function{console.log($(this).val());}
+            $("#pdname").on("input", function () {
+                // 先宣告一個變數，用來把空白鍵篩選掉
+                let pdname = $(this).val().trim();
+                // 再判斷變數長度(無空白)
+                if (pdname.length >= 1 && pdname.length <= 10) {
+                    //符合規定時
+                    $(this).removeClass("is-invalid");
+                    $(this).addClass("is-valid");
+                    flag_name = true;
+                }
+                else {
+                    $(this).removeClass("is-valid");
+                    $(this).addClass("is-invalid");
+                    flag_name = false;
+                }
+            });
+            // 監聽pdnum，先將值轉為數字Number()
+            $("#pdnum").on("input", function () {
+                let pdnum = Number($(this).val());
+
+                if (pdnum >= 0 && pdnum <= 999) {
+                    $(this).removeClass("is-invalid");
+                    $(this).addClass("is-valid");
+                    flag_num = true;
+                }
+                else {
+                    $(this).removeClass("is-valid");
+                    $(this).addClass("is-invalid");
+                    flag_num = false;
+                }
+            });
+            $("#pdinfo").on("input", function () {
+                let pdinfo = $(this).val().trim();
+
+                if (pdinfo.length > 0 && pdinfo.length <= 10) {
+                    $(this).removeClass("is-invalid");
+                    $(this).addClass("is-valid");
+                    flag_info = true;
+                }
+                else {
+                    $(this).removeClass("is-valid");
+                    $(this).addClass("is-invalid");
+                    flag_info = false;
+                }
+            });
+            $("#pdpackage").on("change", function () {
+                let pdpackage = $(this).val().trim();
+                if (pdpackage != "請選擇") {
+                    $(this).removeClass("is-invalid");
+                    $(this).addClass("is-valid");
+                    flag_pk = true;
+                }
+                else {
+                    $(this).removeClass("is-valid");
+                    $(this).addClass("is-invalid");
+                    flag_pk = false;
+                }
+            });
+            $("#pdstatus").on("change", function () {
+                let pdstatus = $(this).prop("checked");
+                // 偵測目前switch得狀態為真實顯示"上架"反之顯示"下架"
+                if (pdstatus) {
+                    $("#pdstatus_text").text("目前狀態: 上架");
+                } else {
+                    $("#pdstatus_text").text("目前狀態: 下架");
+                }
+            });
+            // 監聽class要用.
+            $(".store_place").on("change", function () {
+                // 計算已經打勾的數量
+                let count = $(".store_place:checked").length
+
+                if (count > 0) {
+                    $("#store").removeClass("is-invalid");
+                    $("#store").addClass("is-valid");
+                    flag_sp = true;
+                } else {
+                    $("#store").removeClass("is-valid");
+                    $("#store").addClass("is-invalid");
+                    flag_sp = false;
+                }
+            });
+            $(".pay").on("change", function () {
+                let pay = $(".pay:checked").val();
+
+                if (pay != undefined) {
+                    $("#pdpay").removeClass("is-invalid");
+                    $("#pdpay").addClass("is-valid");
+                    flag_pay = true;
+                } else {
+                    $("#pdpay").removeClass("is-valid");
+                    $("#pdpay").addClass("is-invalid");
+                    flag_pay = false;
+                }
+            });
+            //第一個按鈕監聽
+            $("#ok_btn").on("click", function () {
+                if (flag_name && flag_num && flag_info && flag_pk && flag_sp && flag_pay) {
+                    // 判斷商品為上架還是下架，此處使用三元運算子
+                    let pdstatus = $("#pdstatus").prop("checked") ? "上架" : "下架";
+                    // 蒐集checkbox的內容，用.push方式把內容放進陣列裡面
+                    let place = [];
+                    $(".store_place:checked").each(function () {
+                        place.push($(this).val());
+                    });
+                    //提取radio的value
+                    let pay = $(".pay:checked").val();
+                    // 建立資料格式(須符合資料表的格式)
+                    productData = {
+                        pdname: $("#pdname").val().trim(),
+                        pdnum: Number($("#pdnum").val().trim()),
+                        pdinfo: $("#pdinfo").val().trim(),
+                        pdpackage: $("#pdpackage").val().trim(),
+                        pdstatus: pdstatus,
+                        store: place.join("、"),
+                        pdpay: pay,
+                        // 時間戳記zh_TW為台灣時區
+                        created_at: new Date().toLocaleString("zh-TW")
+                    }
+                    // 陣列要用.join()方式印出，()內可填項目跟項目之間要輸出的內容
+                    let strHTML = `
+                                    <div class="d-flex justify-content-between border-bottom border-2 border-white pb-2 mb-2">
+                                        <h3 class="fs-6 fw-bold text-secondary mb-0">產品名稱</h3>
+                                        <span class="text-dark fw-medium">${$("#pdname").val()}</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between border-bottom border-2 border-white pb-2 mb-2">
+                                        <h3 class="fs-6 fw-bold text-secondary mb-0">產品數量</h3>
+                                        <span class="text-dark fw-medium">${Number($("#pdnum").val())} 件</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between border-bottom border-2 border-white pb-2 mb-2">
+                                        <h3 class="fs-6 fw-bold text-secondary mb-0">保存方式</h3>
+                                        <span class="badge bg-info text-white pt-2 px-3 fs-7 rounded-pill">${$("#pdinfo").val()}</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between border-bottom border-2 border-white pb-2 mb-2">
+                                        <h3 class="fs-6 fw-bold text-secondary mb-0">包裝方式</h3>
+                                        <span class="text-dark fw-medium">${$("#pdpackage").val()}</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between border-bottom border-2 border-white pb-2 mb-2">
+                                        <h3 class="fs-6 fw-bold text-secondary mb-0">目前狀態</h3>
+                                        <span class="badge ${pdstatus === '上架' ? 'bg-success' : 'bg-danger'} text-white pt-2 px-3 fs-7 rounded-pill">${pdstatus}</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between border-bottom border-2 border-white pb-2 mb-2">
+                                        <h3 class="fs-6 fw-bold text-secondary mb-0">販售地點</h3>
+                                        <span class="text-dark fw-medium">${place.join("、")}</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between pt-1">
+                                        <h3 class="fs-6 fw-bold text-secondary mb-0">付款方式</h3>
+                                        <span class="text-dark fw-medium">${pay}</span>
+                                    </div>
+                                `;
+                    $("#showmessage").html(strHTML);
+                    $('#detale').removeClass("d-none");
+                }
+                else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "逼逼...",
+                        text: "資料格式錯誤",
+                    });
+                }
+            });
+            //送出按鈕監聽
+            $("#send_btn").on("click", function () {
+                //將productData傳至後端(product.json)
+                axios
+                    .post('https://json-server-myblog.onrender.com/product', productData)
+                    .then(function (response) {
+                        if (response.status == 201) {
+                            Swal.fire({
+                                title: "已完成資料新增",
+                                icon: "success",
+                                showDenyButton: false,
+                                showCancelButton: false,
+                                confirmButtonText: "確認",
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // 按下確認後重整頁面
+                                    location.reload();
+                                };
+                            });
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                    .finally(function () {
+                        // always executed
+                    });
+            });
+        })
+    </script>
+</body>
+
+</html>
